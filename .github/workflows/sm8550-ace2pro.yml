@@ -51,8 +51,12 @@ jobs:
         
     - name: 添加MKSU
       run: |
-        cd kernel/kernel_platform/common
+        cd kernel_platform
         curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/refs/heads/main/kernel/setup.sh" | bash -
+        cd KernelSU
+        git revert -m 1 $(git log --grep="remove devpts hook" --pretty=format:"%H") -n
+        KSU_VERSION=$(expr $(/usr/bin/git rev-list --count HEAD) "+" 10200)
+        sed -i "s/DKSU_VERSION=16/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
         
     - name: 添加SUSFS
       run: |
@@ -66,7 +70,7 @@ jobs:
            cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
            cd common
            patch -p1 < 50_add_susfs_in_gki-android13-5.15.patch
-           
+
     - name: 编译内核
       run: |
         cd kernel
