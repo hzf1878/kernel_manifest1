@@ -75,7 +75,7 @@ jobs:
         
     - name: 打包 AnyKernel3
       run: |
-       git clone https://github.com/Yxiguan/AnyKernel3.git --depth=1
+       git clone https://github.com/hzf1878/AnyKernel3.git --depth=1
        rm -rf ./AnyKernel3/.git
        sudo chmod 777 ./AnyKernel3/ksu.sh
        cd ./AnyKernel3/
